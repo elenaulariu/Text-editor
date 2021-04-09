@@ -60,6 +60,38 @@ void insert(List *list, T value) {
     }
 }
 
+void insertaftercursor(List *list, T value, ListNode *cursor) {
+    ListNode *newNode = malloc (sizeof(ListNode));
+    newNode->value=value;
+    newNode->next=NULL;
+    newNode->prev=NULL;
+    if(cursor->next==NULL) {
+        newNode->prev=list->tail;
+        list->tail->next=newNode;
+        list->tail=newNode;
+        cursor->next=NULL;
+        cursor->prev=list->tail;
+    }
+    else if(cursor->prev==NULL) {
+        newNode->next=list->head;
+        list->head->prev=newNode;
+        list->head=newNode;
+        cursor->prev=list->head;
+        cursor->next=list->head->next;
+    }
+    else {
+        ListNode *temp=list->head;
+        while(temp!=cursor->prev)
+            temp=temp->next;
+        newNode->next=temp->next;
+        newNode->next->prev=newNode;
+        temp->next=newNode;
+        newNode->prev=temp;
+        cursor->prev=newNode;
+        cursor->next=newNode->next;
+    }
+}
+
 // Insereaza un nou element astfel incat lista sa ramana in continuare sortata.
 void insert_in_order(List *list, T value) {
     ListNode *newNode = malloc (sizeof(ListNode));
@@ -135,6 +167,7 @@ void deleteafter(List *list, ListNode *cursor) {
         temp=list->head;
         list->head=list->head->next;
         list->head->prev=NULL;
+        cursor->next=list->head;
         free(temp);
     }
     else {
@@ -144,9 +177,9 @@ void deleteafter(List *list, ListNode *cursor) {
                 if(curent->next==list->tail) {
                     temp=list->tail;
                     list->tail->next=NULL;
-                    curent->next=NULL;
-                    cursor->next=curent->next;
                     list->tail=list->tail->prev;
+                    curent->next=NULL;
+                    cursor->next=NULL;
                     free(temp);
                     break;
             }
@@ -181,7 +214,8 @@ void destroy_list(List *list) {
 }
 
 void copy_list(List *list, List *copy) {
-    for (ListNode *it = list->head; it != NULL; it = it->next) {
+    ListNode *it = list->head;
+    for (; it != NULL; it = it->next) {
         insert(copy, it->value);
     }
 }
@@ -189,14 +223,16 @@ void copy_list(List *list, List *copy) {
 void print_list(List *list) {
     FILE *f;
     f=fopen("editor.out", "wt");
-    for (ListNode *it = list->head; it != NULL; it = it->next) {
+    ListNode *it = list->head;
+    for (; it != NULL; it = it->next) {
         fputc(it->value, f);
     }
     fclose(f);
 }
 
 void print_list_reversed(List *list) {
-    for (ListNode *it = list->tail; it != NULL; it = it->prev) {
+    ListNode *it = list->tail;
+    for (; it != NULL; it = it->prev) {
         printf("%c->", it->value);
     }
     printf("NULL\n");

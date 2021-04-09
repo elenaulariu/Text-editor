@@ -29,8 +29,7 @@ int get_length(List *list);
 // Insereaza un nou element la finalul listei.
 void insert(List *list, T value);
 
-// Insereaza un nou element astfel incat lista sa ramana in continuare sortata.
-void insert_in_order(List *list, T value);
+void insertaftercursor(List *list, T value, ListNode *cursor);
 
 // Sterge si dezaloca din memorie elementul din lista aflat inaintea cursorului.
 void delete(List *list, ListNode *cursor);

@@ -1,11 +1,9 @@
 build: editor
 
-editor: main.o queue.o stack.o double_linked_list.o commands.o
-	gcc main.o queue.o stack.o double_linked_list.o commands.o -o editor
+editor: main.o stack.o double_linked_list.o commands.o
+	gcc main.o stack.o double_linked_list.o commands.o -o editor
 
 main.o: main.c
-
-queue.o: queue.h queue.c
 
 stack.o: stack.h stack.c
 

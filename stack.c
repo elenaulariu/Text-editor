@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Initializeaza o stiva. 
 Stack* init_stack()
@@ -27,10 +28,11 @@ int stack_size(Stack *s)
 }
 
 // Adauga un element in stiva. 
-void push(Stack *s, char* x)
+void push(Stack *s, char *x)
 {
     Node *newNode = malloc(sizeof(Node));
-    newNode->value=x;
+    newNode->value=malloc(100*sizeof(char));
+    strcpy(newNode->value, x);
     newNode->next=s->top;
     s->top=newNode;
     s->size++;
@@ -43,6 +45,7 @@ int pop(Stack *s)
     if(s->top==NULL) return 0;
     temp=s->top;
     s->top=s->top->next;
+    free(temp->value);
     free(temp);
     s->size--;
     return 1;
@@ -67,8 +70,9 @@ void print_stack(Stack *s)
         return;
 
     printf("[");
-    for (Node *it = s->top; it != NULL; it = it->next) {
-        printf("%s ", it->value);
+    Node *it = s->top;
+    for (; it != NULL; it = it->next) {
+        printf("%s", it->value);
     }
     printf("]");
 }

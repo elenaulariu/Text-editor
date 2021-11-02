@@ -1,0 +1,33 @@
+	Pentru rezolvarea acestei teme am avut de implementat un editor text ce 
+permitea inserarea, stergerea, inlocuirea, dar si alte comenzi, precum si 
+anularea unei comenzi sau refacerea acesteia, in cazul unei anulari anterioare.
+	Pentru simplificarea scrierii codului, am impartit programul in mai 
+multe fisiere sursa, dar si antet, pe care le-am folosit mai tarziu in main.
+	Am inceput prin a defini si construi principalele functii pentru 
+structuriile necesare, lista dublu-inlantuita si stiva, functii precum
+initializarea, inserarea unui nod, stergerea acestuia etc.
+	Un alt fisier creat pentru simplificarea scrierii si citirii codului
+a fost fisierul commands.c in care am inclus unele dintre functiile necesare
+in editarea textului, precum gotoline, gotocharacter, replace, deleteword etc.
+	Toate aceste functii si fisiere ajutatoare le-am folosit mai tarziu in
+scrierea fisierului main, acolo unde am luat in considerare fiecare comanda
+care poate fi folosita pe fisierul editor.in, unele dintre comenzi le-am avut
+implementate cu ajutorul functiilor anterior, in timp ce altele, precum undo,
+le-am implementat direct in functia main, luand in considerare numai cazurile
+prezente in teste.
+	Pentru a salva comenziile executate, am utilizat 2 stive, undo si redo,
+in stiva undo salvand toate comenziile executate pana la intalnirea comenzii
+save, cand stivele sunt golite, iar in stiva redo salvand comenziile care erau
+scoase din stiva undo, adica anulate. 
+	Pentru a salva caracterele sterse am folosit o lista, la fel actionand
+si pentru textul sters prin anularea comenzii insert. O alta problema pe care
+am rezolvat-o prin folosirea unei liste a fost cea a aflarii pozitiei cursorului
+in momentul aplicarii comenzii delete sau backspace. Pentru aceasta am aflat
+linia si numarul caracterului dupa care era pozitionat cursorul si le-am 
+introdus intr-o lista, din care le stergeam de fiecare data cand anulam sau 
+refaceam comanda.
+	Probabil una dintre cele mai importante variabile folosite a fost 
+variabila cursor, reprezentand un nod care pointa la caracterul precedent si
+la cel urmator, fara a se afla in lista text.
+	Programul se incheie prin golirea si elimnarea din memorie a tuturor
+variablilelor alocate dinamic.
